@@ -1,0 +1,10 @@
+Style/Documentation:
+  Enabled: false
+StringLiterals:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+Rails:
+  Enabled: true
+Layout/EndOfLine:
+  Enabled: false
