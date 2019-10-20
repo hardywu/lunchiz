@@ -11,6 +11,13 @@ class User < ApplicationRecord
 
   def jwt
     secret = Rails.application.secrets['secret_key_base']
-    JWT.encode(hash, secret, 'HS384')
+    JWT.encode(payload, secret, 'HS384')
+  end
+
+  def self.of_jwt(token)
+    secret = Rails.application.secrets['secret_key_base']
+    find JWT.decode(token, secret, true, algorithm: 'HS384')[0]['id']
+  rescue JWT::DecodeError
+    nil
   end
 end

@@ -11,12 +11,20 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get '/stores', as: :json
     assert_response :success
+    assert_match '"total":2', @response.body
+  end
+
+  test "should query by owner id" do
+    get "/stores?ownerId=#{@owner.id}", as: :json
+    assert_response :success
+    assert_match @owner.store.name, @response.body
+    assert_match '"total":1', @response.body
   end
 
   test "non-owner should not create store" do
     assert_difference('Store.count', 0) do
       post '/stores',
-           params: { name: "sample restaurant" },
+           params: { data: { attributes: { name: 'sample restaurant' }}},
            as: :json, headers: token_header(@user)
     end
 
@@ -26,8 +34,8 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
   test "owner should create store" do
     assert_difference('Store.count') do
       post '/stores',
-           params: { name: 'sample restaurant' },
-           as: :json, headers: token_header(@owner)
+           params: { data: { attributes: { name: 'sample restaurant' }}},
+           as: :json, headers: token_header(users(:owner_without_rest))
     end
 
     assert_response 201
@@ -40,13 +48,13 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
 
   test "admin should update store" do
     patch "/stores/#{@store.id}", params: { name: 'updated name' },
-                                 as: :json, headers: token_header(@admin)
+                                  as: :json, headers: token_header(@admin)
     assert_response 200
   end
 
   test "non-admin should not update store" do
     patch "/stores/#{@store.id}", params: { name: 'updated name' },
-                                 as: :json, headers: token_header(@owner)
+                                  as: :json, headers: token_header(@owner)
     assert_response 401
   end
 

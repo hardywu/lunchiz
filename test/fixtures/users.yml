@@ -16,8 +16,19 @@ owner:
   email: owner@test.com
   password_digest: <%= BCrypt::Password.create('changeme') %>
 
+owner_without_rest:
+  type: Owner
+  email: owner_2@test.com
+  password_digest: <%= BCrypt::Password.create('changeme') %>
+
 admin:
   id: 3
   type: Admin
   email: admin@test.com
+  password_digest: <%= BCrypt::Password.create('changeme') %>
+
+extra_owner:
+  id: 4
+  type: Owner
+  email: owner@test.com
   password_digest: <%= BCrypt::Password.create('changeme') %>

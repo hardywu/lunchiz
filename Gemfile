@@ -19,6 +19,9 @@ gem 'bcrypt', '~> 3.1.7'
 # authentication
 gem 'jwt'
 
+# pagination
+gem 'kaminari'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
