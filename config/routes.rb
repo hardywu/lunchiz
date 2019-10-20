@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :reviews
+  resources :reviews do
+    member do
+      patch 'reply'
+    end
+  end
   resources :stores
   resources :users
   post 'auth/signin'

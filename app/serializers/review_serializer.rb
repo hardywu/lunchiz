@@ -1,4 +1,6 @@
 class ReviewSerializer
   include FastJsonapi::ObjectSerializer
-  attributes 
+  belongs_to :user
+  belongs_to :store
+  attributes :rate, :comment, :reply, :date
 end
