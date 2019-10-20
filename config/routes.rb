@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     end
   end
   resources :stores
-  resources :users
+  resources :users, except: :create
   post 'auth/signin'
   post 'auth/signup'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

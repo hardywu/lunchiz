@@ -9,6 +9,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "admin should get index" do
     get '/users', as: :json, headers: token_header(@admin)
     assert_response :success
+    assert_match '"total":5', @response.body
   end
 
   test "admin should show user" do
@@ -17,9 +18,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "admin should update user" do
-    patch "/users/#{@user.id}", params: { email: 'change@test.com' },
-          as: :json, headers: token_header(@admin)
+    patch "/users/#{@user.id}", params: {
+      data: { attributes: { password: 'new_password' } }
+    }, as: :json, headers: token_header(@admin)
     assert_response 200
+    @user.reload
+    assert @user.authenticate('new_password')
   end
 
   test "admin should destroy user" do

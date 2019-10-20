@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :reviews
+  validates :email, uniqueness: true, email: true
 
   def payload
     {
