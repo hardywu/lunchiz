@@ -12,14 +12,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
            as: :json
     end
 
-    assert_response 201
+    assert_response :created
   end
 
   test "should login user" do
     post '/auth/signin',
-         params: { email: 'sample@test.com', password: 'changeme' },
+         params: { email: @user.email, password: 'changeme' },
          as: :json
 
-    assert_response 201
+    assert_response :ok
+  end
+
+  test "shold failed login user" do
+    post '/auth/signin',
+         params: { email: @user.email, password: 'wrong' },
+         as: :json
+
+    assert_response 401
   end
 end

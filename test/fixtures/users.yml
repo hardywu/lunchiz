@@ -6,15 +6,18 @@
 #
 one:
   id: 1
+  type: User
   email: one@test.com
-  password_digest: changeme
+  password_digest: <%= BCrypt::Password.create('changeme') %>
 
 owner:
   id: 2
+  type: Owner
   email: owner@test.com
-  password_digest: changeme
+  password_digest: <%= BCrypt::Password.create('changeme') %>
 
 admin:
   id: 3
+  type: Admin
   email: admin@test.com
-  password_digest: changeme
+  password_digest: <%= BCrypt::Password.create('changeme') %>
