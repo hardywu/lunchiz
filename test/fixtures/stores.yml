@@ -8,6 +8,9 @@ one:
   id: 1
   owner_id: 2
   name: store one
+  rate_sum: 6
+  rate_avg: 3
+  reviews_count: 2
 
 two:
   id: 2

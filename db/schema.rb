@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_20_025312) do
+ActiveRecord::Schema.define(version: 2019_10_20_083227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 2019_10_20_025312) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "owner_id"
+    t.integer "reviews_count", default: 0
+    t.integer "rate_sum", default: 0
+    t.decimal "rate_avg", default: "0.0"
     t.index ["owner_id"], name: "index_stores_on_owner_id"
   end
 

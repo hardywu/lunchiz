@@ -16,4 +16,15 @@ class StoreTest < ActiveSupport::TestCase
     store = @owner_without_store.build_store(name: 'new store')
     assert store.save
   end
+
+  test "should have average rate" do
+    store = stores(:one)
+    user = users(:one)
+    store.reviews.create rate: 4, date: '2009-01-01', comment: 'good',
+                         user: user
+    store.reload
+    mean = store.reviews.map(&:rate).sum.to_f / store.reviews.size
+    assert_equal store.rate_avg.round(2), mean.round(2)
+    assert_equal store.reviews.size, 3
+  end
 end
