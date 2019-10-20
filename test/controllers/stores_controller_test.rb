@@ -8,10 +8,13 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
     @owner = users(:owner)
   end
 
-  test "should get index" do
+  test "should get index order by rate average" do
     get '/stores', as: :json
     assert_response :success
     assert_match '"total":2', @response.body
+    rates = @response.body.scan(/\"rate_avg\":\"([\d\.]+)/).flatten
+    assert_equal 2, rates.size
+    assert rates[0] >= rates[1]
   end
 
   test "should query by owner id" do
