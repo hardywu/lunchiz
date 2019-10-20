@@ -6,5 +6,10 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Rails:
   Enabled: true
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
 Layout/EndOfLine:
   Enabled: false
+AllCops:
+  Exclude:
+    - '**/Gemfile'
