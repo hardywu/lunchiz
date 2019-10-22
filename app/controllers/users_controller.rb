@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_admin
-  before_action :set_user, only: %i[show update destroy]
+  before_action :set_user, only: %i[show update destroy adminize]
 
   # GET /users
   def index
@@ -17,6 +17,14 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
+      render json: serialize('User', @user)
+    else
+      render json: ame_serialize(@user.errors), status: :unprocessable_entity
+    end
+  end
+
+  def adminize
+    if @user.update(type: 'Admin')
       render json: serialize('User', @user)
     else
       render json: ame_serialize(@user.errors), status: :unprocessable_entity

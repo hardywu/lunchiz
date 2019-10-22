@@ -26,6 +26,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert @user.authenticate('new_password')
   end
 
+  test "admin should promote user to admin" do
+    patch "/users/#{@user.id}/adminize", headers: token_header(@admin)
+    assert_response 200
+    assert_match '"role":"Admin"', @response.body
+  end
+
   test "admin should destroy user" do
     assert_difference('User.count', -1) do
       delete "/users/#{@user.id}", as: :json, headers: token_header(@admin)

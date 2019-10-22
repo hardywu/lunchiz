@@ -5,7 +5,11 @@ Rails.application.routes.draw do
     end
   end
   resources :stores
-  resources :users, except: :create
+  resources :users, except: :create do
+    member do
+      patch 'adminize'
+    end
+  end
   post 'auth/signin'
   post 'auth/signup'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
