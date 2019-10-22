@@ -13,7 +13,7 @@ class StoreTest < ActiveSupport::TestCase
   end
 
   test "should create one store" do
-    store = @owner_without_store.build_store(name: 'new store')
+    store = @owner_without_store.stores.new(name: 'new store')
     assert store.save
   end
 

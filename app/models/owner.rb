@@ -1,3 +1,3 @@
 class Owner < User
-  has_one :store
+  has_many :stores
 end

@@ -17,7 +17,7 @@ class StoresController < ApplicationController
 
   # POST /stores
   def create
-    @store = current_user.build_store(store_params)
+    @store = current_user.stores.new(store_params)
 
     if @store.save
       render json: serialize('Store', @store), status: :created
@@ -30,7 +30,7 @@ class StoresController < ApplicationController
   # PATCH/PUT /stores/1
   def update
     if @store.update(store_params)
-      render json: @store
+      render json: serialize('Store', @store)
     else
       render json: ame_serialize(@store.errors), status: :unprocessable_entity
     end

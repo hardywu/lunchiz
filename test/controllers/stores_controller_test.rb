@@ -11,17 +11,17 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
   test "should get index order by rate average" do
     get '/stores', as: :json
     assert_response :success
-    assert_match '"total":2', @response.body
+    assert_match '"total":3', @response.body
     rates = @response.body.scan(/\"rate_avg\":\"([\d\.]+)/).flatten
-    assert_equal 2, rates.size
+    assert_equal 3, rates.size
     assert rates[0] >= rates[1]
   end
 
   test "should query by owner id" do
     get "/stores?ownerId=#{@owner.id}", as: :json
     assert_response :success
-    assert_match @owner.store.name, @response.body
-    assert_match '"total":1', @response.body
+    assert_match @owner.stores[0].name, @response.body
+    assert_match '"total":2', @response.body
   end
 
   test "non-owner should not create store" do
