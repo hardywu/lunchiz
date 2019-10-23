@@ -24,6 +24,16 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
     assert_match '"total":2', @response.body
   end
 
+  test "should query with min and max avg rate range" do
+    get '/stores?minRate=2&maxRate=4', as: :json
+    assert_response :success
+    assert_match '"total":1', @response.body
+    rates = @response.body.scan(/\"rate_avg\":\"([\d\.]+)/).flatten
+    assert_equal 1, rates.size
+    assert rates[0].to_f >= 2
+    assert rates[0].to_f <= 4
+  end
+
   test "non-owner should not create store" do
     assert_difference('Store.count', 0) do
       post '/stores',

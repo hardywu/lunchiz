@@ -5,7 +5,7 @@ class StoresController < ApplicationController
 
   # GET /stores
   def index
-    @stores = Store.where(query_params).page(page).per(per_page)
+    @stores = set_query_stores.page(page).per(per_page)
 
     render json: serialize('Store', @stores)
   end
@@ -42,6 +42,15 @@ class StoresController < ApplicationController
   end
 
   private
+
+  def set_query_stores
+    query = Store.where(query_params)
+    query = query.where('rate_avg <= ?', queries[:max_rate].to_i) if
+      queries[:max_rate]
+    query = query.where('rate_avg >= ?', queries[:min_rate].to_i) if
+      queries[:min_rate]
+    query
+  end
 
   def query_params
     queries.permit(:owner_id)
