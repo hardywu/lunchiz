@@ -13,6 +13,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :created
+    assert_match(/.+\..+\..+/, @response.headers['Authorization'])
   end
 
   test "should register owner" do
@@ -31,6 +32,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
          as: :json
 
     assert_response :ok
+    assert_match(/.+\..+\..+/, @response.headers['Authorization'])
   end
 
   test "shold failed login user" do
@@ -39,5 +41,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
          as: :json
 
     assert_response 401
+  end
+
+  test "should get user himself" do
+    get '/auth/me', as: :json, headers: token_header(@user)
+
+    assert_response :ok
+    assert_match "\"email\":\"#{@user.email}\"", @response.body
   end
 end

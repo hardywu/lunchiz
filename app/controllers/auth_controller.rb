@@ -1,5 +1,6 @@
 class AuthController < ApplicationController
   before_action :set_new_user, only: :signup
+  before_action :authorize, only: :me
 
   def signin
     @user = User.find_by email: params[:email]
@@ -17,6 +18,10 @@ class AuthController < ApplicationController
       render json: ame_serialize(@user.errors),
              status: :unprocessable_entity
     end
+  end
+
+  def me
+    render json: serialize('User', current_user)
   end
 
   def set_new_user
