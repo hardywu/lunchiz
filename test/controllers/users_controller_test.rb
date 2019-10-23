@@ -9,7 +9,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "admin should get index" do
     get '/users', as: :json, headers: token_header(@admin)
     assert_response :success
-    assert_match '"total":5', @response.body
+    assert_match '"total":' + User.count.to_s, @response.body
   end
 
   test "admin should show user" do

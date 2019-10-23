@@ -6,6 +6,7 @@ class Review < ApplicationRecord
               only_integer: true, greater_than: 0, less_than: 6
             }
   validates :comment, presence: true
+  validates :store_id, uniqueness: { scope: :user_id }
   after_create :update_store_rate_stats
 
   def update_store_rate_stats

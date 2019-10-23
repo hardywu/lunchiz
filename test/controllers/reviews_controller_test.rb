@@ -27,13 +27,25 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
   test "user should create review" do
     assert_difference('Review.count') do
       attrs = { rate: 4, date: '2018-10-11', comment: 'ok' }
-      relat = { store: { data: { id: stores(:one).id } } }
+      relat = { store: { data: { id: stores(:two).id } } }
       post '/reviews', params: {
         data: { attributes: attrs, relationships: relat }
       }, as: :json, headers: token_header(@user)
     end
 
     assert_response 201
+  end
+
+  test "user should not create multipe reviews on same store" do
+    assert_difference('Review.count', 0) do
+      attrs = { rate: 4, date: '2018-10-11', comment: 'ok' }
+      relat = { store: { data: { id: stores(:one).id } } }
+      post '/reviews', params: {
+        data: { attributes: attrs, relationships: relat }
+      }, as: :json, headers: token_header(@user)
+    end
+
+    assert_response :unprocessable_entity
   end
 
   test "should show review" do

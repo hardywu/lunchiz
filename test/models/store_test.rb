@@ -19,7 +19,7 @@ class StoreTest < ActiveSupport::TestCase
 
   test "should have average rate" do
     store = stores(:one)
-    user = users(:one)
+    user = users(:user_reviewless)
     store.reviews.create rate: 4, date: '2009-01-01', comment: 'good',
                          user: user
     store.reload
