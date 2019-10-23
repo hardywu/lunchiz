@@ -11,7 +11,29 @@ class ReviewsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get '/reviews', as: :json
     assert_response :success
-    assert_match '"total":2', @response.body
+    assert_match "\"total\":#{Review.count}", @response.body
+  end
+
+  test "should get reviews ordered by date desc by default" do
+    get '/reviews', as: :json
+    assert_response :success
+    dates = @response.body.scan(/\"date\":\"([\d\.]+)/).flatten
+    assert dates[0] >= dates[1]
+  end
+
+  test "should get reviews ordered by rate desc" do
+    get '/reviews?orderByRate=desc', as: :json
+    assert_response :success
+    dates = @response.body.scan(/\"date\":\"([\d\-]+)/).flatten
+    assert dates[0] >= dates[1]
+  end
+
+  test "should get reviews ordered by rate asc" do
+    get '/reviews?orderByRate=asc', as: :json
+    assert_response :success
+    dates = @response.body.scan(/\"date\":\"([\d\-]+)/).flatten
+    assert_equal dates.size, Review.count
+    assert dates[0] <= dates[1]
   end
 
   test "non-user should not create review" do

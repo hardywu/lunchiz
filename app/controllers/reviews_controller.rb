@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
 
   # GET /reviews
   def index
-    @reviews = Review.where(query_params).page(page).per(per_page)
+    @reviews = query_reviews.page(page).per(per_page)
 
     render json: serialize('Review', @reviews)
   end
@@ -50,6 +50,13 @@ class ReviewsController < ApplicationController
   end
 
   private
+
+  def query_reviews
+    query = Review.where(query_params)
+    query = query.highest if queries[:order_by_rate] == 'desc'
+    query = query.lowest if queries[:order_by_rate] == 'asc'
+    query.latest
+  end
 
   def query_params
     queries.permit(:store_id)

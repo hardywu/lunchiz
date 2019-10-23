@@ -1,6 +1,9 @@
 class Review < ApplicationRecord
   belongs_to :user
   belongs_to :store, counter_cache: true
+  scope :latest, -> { order(date: :desc) }
+  scope :lowest, -> { order(rate: :asc) }
+  scope :highest, -> { order(rate: :desc) }
   validates :rate,
             numericality: {
               only_integer: true, greater_than: 0, less_than: 6
