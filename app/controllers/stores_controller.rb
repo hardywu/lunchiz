@@ -12,7 +12,8 @@ class StoresController < ApplicationController
 
   # GET /stores/1
   def show
-    render json: serialize('Store', @store)
+    render json: serialize('Store', @store,
+                           params: { current_user: current_user })
   end
 
   # POST /stores

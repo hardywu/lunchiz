@@ -12,7 +12,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
     get '/stores', as: :json
     assert_response :success
     assert_match '"total":3', @response.body
-    rates = @response.body.scan(/\"rate_avg\":\"([\d\.]+)/).flatten
+    rates = @response.body.scan(/\"rateAvg\":\"([\d\.]+)/).flatten
     assert_equal 3, rates.size
     assert rates[0] >= rates[1]
   end
@@ -28,7 +28,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
     get '/stores?minRate=2&maxRate=4', as: :json
     assert_response :success
     assert_match '"total":1', @response.body
-    rates = @response.body.scan(/\"rate_avg\":\"([\d\.]+)/).flatten
+    rates = @response.body.scan(/\"rateAvg\":\"([\d\.]+)/).flatten
     assert_equal 1, rates.size
     assert rates[0].to_f >= 2
     assert rates[0].to_f <= 4
@@ -37,7 +37,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
   test "non-owner should not create store" do
     assert_difference('Store.count', 0) do
       post '/stores',
-           params: { data: { attributes: { name: 'sample restaurant' }}},
+           params: { data: { attributes: { name: 'sample restaurant' } } },
            as: :json, headers: token_header(@user)
     end
 

@@ -82,7 +82,7 @@ class ApplicationController < ActionController::API
   end
 
   def bearer_token
-    request.headers['Authorization'].split(' ')[1]
+    request.headers['Authorization']&.split(' ')&.[](1)
   end
 
   def authorize
