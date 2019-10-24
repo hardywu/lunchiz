@@ -52,14 +52,22 @@ class ReviewsController < ApplicationController
   private
 
   def query_reviews
-    query = Review.where(query_params)
+    query = klass.where(query_params)
     query = query.highest if queries[:order_by_rate] == 'desc'
     query = query.lowest if queries[:order_by_rate] == 'asc'
     query.latest
   end
 
+  def klass
+    if queries[:owner_id]
+      Review.joins(:store).where('stores.owner_id': queries[:owner_id])
+    else
+      Review
+    end
+  end
+
   def query_params
-    queries.permit(:store_id)
+    queries.permit(:store_id, :reply)
   end
 
   # Use callbacks to share common setup or constraints between actions.
