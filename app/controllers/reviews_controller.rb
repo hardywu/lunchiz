@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/1
   def update
-    if @review.update(attributes.permit(:comment))
+    if @review.update(attributes.permit(:comment, :rate, :date, :reply))
       render json: serialize('Review', @review)
     else
       render json: ame_serialize(@review.errors), status: :unprocessable_entity
@@ -37,7 +37,7 @@ class ReviewsController < ApplicationController
   end
 
   def reply
-    if @review.update(attributes.permit(:reply))
+    if @review.reply.blank? && @review.update(attributes.permit(:reply))
       render json: serialize('Review', @review)
     else
       render json: ame_serialize(@review.errors), status: :unprocessable_entity

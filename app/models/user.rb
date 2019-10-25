@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :reviews
   validates :email, uniqueness: true, email: true
+  default_scope { order(created_at: :desc) }
 
   def payload
     {
