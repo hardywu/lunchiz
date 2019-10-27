@@ -8,12 +8,12 @@ class ReviewsController < ApplicationController
   def index
     @reviews = query_reviews.page(page).per(per_page)
 
-    render json: serialize('Review', @reviews)
+    render json: to_json(@reviews)
   end
 
   # GET /reviews/1
   def show
-    render json: serialize('Review', @review)
+    render json: to_json(@review)
   end
 
   # POST /reviews
@@ -21,7 +21,7 @@ class ReviewsController < ApplicationController
     @review = current_user.reviews.new(review_params)
 
     if @review.save
-      render json: serialize('Review', @review), status: :created
+      render json: to_json(@review), status: :created
     else
       render json: ame_serialize(@review.errors), status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class ReviewsController < ApplicationController
 
   def reply
     if @review.reply.blank? && @review.update(attributes.permit(:reply))
-      render json: serialize('Review', @review)
+      render json: to_json(@review)
     else
       render json: ame_serialize(@review.errors), status: :unprocessable_entity
     end
@@ -80,5 +80,9 @@ class ReviewsController < ApplicationController
     attributes.permit(:rate, :comment, :date).merge(
       relationships_to_params(relationships.permit(store: {}).to_h)
     )
+  end
+
+  def to_json(resource)
+    serialize('Review', resource, include: %i[user])
   end
 end

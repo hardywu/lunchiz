@@ -13,7 +13,10 @@ class ApplicationController < ActionController::API
 
   # ActiveModel::Errors JSONAPI Serializer
   def ame_serialize(am_err)
-    { errors: am_err.messages.map { |att, msg| { title: att, detail: msg } } }
+    errors = am_err.messages.map do |att, msg|
+      msg.map { |ms| { title: att, detail: "#{att} #{ms}" } }
+    end
+    { errors: errors.flatten }
   end
 
   def unprocessable(err)

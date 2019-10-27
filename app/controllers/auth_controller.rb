@@ -25,7 +25,12 @@ class AuthController < ApplicationController
   end
 
   def set_new_user
-    klass = params[:type] == 'owner' ? Owner : User
-    @user = klass.new email: params[:email], password: params[:password]
+    klass = params[:type]&.downcase == 'owner' ? Owner : User
+    @user = klass.new user_params
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.permit(:password, :email, :username)
   end
 end

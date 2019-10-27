@@ -1,7 +1,7 @@
 class StoreSerializer
   include FastJsonapi::ObjectSerializer
   set_key_transform :camel_lower
-  attributes :name, :rate_avg
+  attributes :name, :rate_avg, :reviews_count
   belongs_to :owner
   attribute :can_review, if: proc { |_, p| p[:current_user] } do |_, params|
     params[:current_user]&.type == 'User'
