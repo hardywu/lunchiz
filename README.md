@@ -1,24 +1,32 @@
-# README
+# Project Structure
+The project incldues the back-end codebase with the front-end as its
+git submodule in the folder `/front`. Please make sure to update the submodule
+if you want to get both the frot-end and back-end codebase.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Install Requirements
+  * Ruby version: 2.5.3
+  * System dependencies: Postgresql(>= 11),
 
-Things you may want to cover:
+# Configuration
 
-* Ruby version
+# Database
+```
+# creation
+bundle exec rails db:create db:migrate
+# seed
+bundle exec rails db:seed
+```
 
-* System dependencies
+# Test
+```
+bundle exec rails test
+# or watching files or tests on fly
+bundle exec guard
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Deployment
+start the app
+```
+bundle exec rails s
+```
+Use whatever proxy (nginx/apache) if you want
