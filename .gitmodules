@@ -1,4 +1,0 @@
-[submodule "front"]
-  path = front
-  url = git@git.toptal.com:screening/chengjian-wu.git
-  branch = front
